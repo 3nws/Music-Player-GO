@@ -476,7 +476,6 @@ class MediaPlayerHolder:
     }
 
     fun repeatSong(startFrom: Int) {
-        isRepeat1X = false
         mediaPlayer.setOnSeekCompleteListener { mp ->
             mp.setOnSeekCompleteListener(null)
             play()
