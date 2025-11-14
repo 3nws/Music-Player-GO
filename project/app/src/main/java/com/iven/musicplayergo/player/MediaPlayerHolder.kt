@@ -172,8 +172,9 @@ class MediaPlayerHolder:
     val isCurrentSong get() = currentSong != null || isCurrentSongFM
 
     private val sPlaybackSpeedPersisted get() = GoPreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
-    var isRepeat1X = false
-    var isLooping = false
+    private val loopState get() = GoPreferences.getPrefsInstance().loopState
+    var isRepeat1X = loopState.equals("loop_one")
+    var isLooping = loopState.equals("on")
     private val continueOnEnd get() = GoPreferences.getPrefsInstance().continueOnEnd
 
     // isQueue saves the current song when queue starts
@@ -649,11 +650,6 @@ class MediaPlayerHolder:
 
         if (!sPlaybackSpeedPersisted) currentPlaybackSpeed = 1.0F
 
-        if (isRepeat1X or isLooping) {
-            isRepeat1X = false
-            isLooping = false
-        }
-
         if (GoPreferences.getPrefsInstance().isPreciseVolumeEnabled) {
             setPreciseVolume(currentVolumeInPercent)
         }
@@ -845,6 +841,15 @@ class MediaPlayerHolder:
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
+    }
+
+    fun saveLoopState() {
+        var loopState = "off"
+        when {
+            isRepeat1X -> loopState = "loop_one"
+            isLooping -> loopState = "on"
+        }
+        GoPreferences.getPrefsInstance().loopState = loopState
     }
 
     private fun getRepeatMode() {

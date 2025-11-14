@@ -208,6 +208,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     override fun onPause() {
         super.onPause()
 
+        mMediaPlayerHolder.saveLoopState();
         if (mMediaPlayerHolder.isMediaPlayer && !mMediaPlayerHolder.isSongFromPrefs) {
             if (!mMediaPlayerHolder.isCurrentSongFM) {
                 mMediaPlayerInterface.onBackupSong()

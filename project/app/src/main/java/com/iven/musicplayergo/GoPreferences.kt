@@ -58,6 +58,10 @@ class GoPreferences(context: Context) {
         get() = getObjectForClass("is_queue_pref", Music::class.java)
         set(value) = putObjectForClass("is_queue_pref", value, Music::class.java)
 
+    var loopState
+        get() = mPrefs.getString("loop_state_pref", "off")
+        set(value) = mPrefs.edit { putString("loop_state_pref", value) }
+
     var theme
         get() = mPrefs.getString("theme_pref", "theme_pref_auto")
         set(value) = mPrefs.edit { putString("theme_pref", value) }
